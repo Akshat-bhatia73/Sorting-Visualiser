@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { getBubbleSortAnimations } from "../Algorithms/BubbleSort";
 import { getSelectionSortAnimations } from "../Algorithms/SelectionSort";
 import { getQuickSortAnimations } from "../Algorithms/QuickSort";
+import { getHeapSortAnimations } from "../Algorithms/HeapSort";
 
 //Default Values
 const DEFAULT_ARRAY_SIZE = 50;
@@ -40,7 +41,7 @@ const SortingVisualiser = () => {
 
   //Function to do the animations
   const animateSorting = (animations) => {
-    const arrayBars = document.getElementsByClassName("arrayBar");
+    const arrayBars =document.getElementsByClassName("arrayBar");
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 1;
       if (isColorChange) {
@@ -83,7 +84,13 @@ const SortingVisualiser = () => {
     animateSorting(animations)
   };
 
-  const barWidth = arraySize > 50 ? 8 : arraySize > 25 ? 12 : 24;
+  const heapSort = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+    const animations = getHeapSortAnimations(array, arraySize);
+    animateSorting(animations)
+  };
+
+  const barWidth = arraySize > 50 ? 12 : arraySize > 25 ? 17 : 24;
 
   return (
     <div className="sorting">
@@ -119,7 +126,7 @@ const SortingVisualiser = () => {
           </div>
         </div>
 
-        <div className="buttons">
+        <div className="buttons" >
           <button className="ui button generate" onClick={resetArray}>
             Generate New Array
           </button>
@@ -131,6 +138,9 @@ const SortingVisualiser = () => {
           </button>
           <button className="ui button" onClick={quickSort}>
             Quick Sort
+          </button>
+          <button className="ui button" onClick={heapSort}>
+            Heap Sort
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import SortingVisualiser from './SortingVisualiser/SortingVisualiser'
-import './SortingVisualiser.scss'
+import './style.scss'
 
 export default function App() {
   return (
