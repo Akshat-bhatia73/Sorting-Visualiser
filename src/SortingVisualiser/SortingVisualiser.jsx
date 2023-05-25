@@ -17,7 +17,10 @@ const SortingVisualiser = () => {
   const [arraySize, setArraySize] = useState(DEFAULT_ARRAY_SIZE);
   const [animationSpeed, setAnimationSpeed] = useState(DEFAULT_ANIMATION_SPEED);
   const [array, setArray] = useState([]);
+  const [disableButtons, setDisableButtons] = useState(false)
   const ref = useRef();
+
+  const duplicateArray = array.slice()
 
   useEffect(() => {
     const newArray = [];
@@ -42,6 +45,7 @@ const SortingVisualiser = () => {
 
   //Function to do the animations
   const animateSorting = (animations) => {
+    setDisableButtons(true)
     const arrayBars = document.getElementsByClassName("arrayBar");
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 1;
@@ -65,35 +69,40 @@ const SortingVisualiser = () => {
         }, i * (101 - animationSpeed));
       }
     }
+
+    setTimeout(() => {
+      setDisableButtons(false)
+    }, animations.length * (101-animationSpeed));
   };
 
   const bubbleSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    const animations = getBubbleSortAnimations(array, arraySize);
+    const animations = getBubbleSortAnimations(duplicateArray, arraySize);
     animateSorting(animations);
   };
 
   const selectionSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    const animations = getSelectionSortAnimations(array, arraySize);
+    const animations = getSelectionSortAnimations(duplicateArray, arraySize);
     animateSorting(animations);
   };
 
   const quickSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    const animations = getQuickSortAnimations(array, arraySize);
+    const animations = getQuickSortAnimations(duplicateArray, arraySize);
     animateSorting(animations);
   };
 
   const heapSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    const animations = getHeapSortAnimations(array, arraySize);
+    const animations = getHeapSortAnimations(duplicateArray, arraySize);
     animateSorting(animations);
   };
 
   const insertionSort = () => {
+    setDisableButtons(true)
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    const animations = getInsertionSortAnimations(array, arraySize);
+    const animations = getInsertionSortAnimations(duplicateArray, arraySize);
     const arrayBars = document.getElementsByClassName("arrayBar");
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 1;
@@ -114,6 +123,9 @@ const SortingVisualiser = () => {
         }, i * (101 - animationSpeed));
       }
     }
+    setTimeout(() => {
+      setDisableButtons(false)
+    }, animations.length * (101-animationSpeed));
   };
 
   const barWidth = arraySize > 50 ? 12 : arraySize > 25 ? 17 : 24;
@@ -153,22 +165,22 @@ const SortingVisualiser = () => {
         </div>
 
         <div className="buttons">
-          <button className="ui button generate" onClick={resetArray}>
+          <button className="ui button generate" disabled={disableButtons} onClick={resetArray}>
             Generate New Array
           </button>
-          <button className="ui button" onClick={bubbleSort}>
+          <button className="ui button" disabled={disableButtons} onClick={bubbleSort}>
             Bubble Sort
           </button>
-          <button className="ui button" onClick={selectionSort}>
+          <button className="ui button" disabled={disableButtons} onClick={selectionSort}>
             Selection Sort
           </button>
-          <button className="ui button" onClick={quickSort}>
+          <button className="ui button" disabled={disableButtons} onClick={quickSort}>
             Quick Sort
           </button>
-          <button className="ui button" onClick={heapSort}>
+          <button className="ui button" disabled={disableButtons} onClick={heapSort}>
             Heap Sort
           </button>
-          <button className="ui button" onClick={insertionSort}>
+          <button className="ui button" disabled={disableButtons} onClick={insertionSort}>
             Insertion Sort
           </button>
         </div>
