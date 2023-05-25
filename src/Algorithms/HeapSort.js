@@ -6,6 +6,25 @@ export const getHeapSortAnimations =(array, arraySize) => {
     return animations
 }
 
+const heapify = (array, n, i, animations) => {
+  let largest = i; 
+  let l = 2 * i + 1; 
+  let r = 2 * i + 2;
+  
+  if (l < n && array[l] > array[largest]) largest = l;
+  
+  if (r < n && array[r] > array[largest]) largest = r;
+  
+  if (largest !== i) {
+    animations.push([largest, i])
+    swap(array, largest, i)
+    animations.push([largest, array[largest], i, array[i]])
+    animations.push([largest, i])
+    
+    heapify(array, n, largest, animations);
+  }
+};
+
 const buildHeap = (array, n, animations) => {
   for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
     heapify(array, n, i, animations);
@@ -25,21 +44,3 @@ const heapSort = (array, arraySize, animations) => {
   }
 };
 
-const heapify = (array, n, i, animations) => {
-  let largest = i; 
-  let l = 2 * i + 1; 
-  let r = 2 * i + 2;
-
-  if (l < n && array[l] > array[largest]) largest = l;
-
-  if (r < n && array[r] > array[largest]) largest = r;
-
-  if (largest !== i) {
-    animations.push([largest, i])
-    swap(array, largest, i)
-    animations.push([largest, array[largest], i, array[i]])
-    animations.push([largest, i])
-
-    heapify(array, n, largest, animations);
-  }
-};
