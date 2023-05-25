@@ -5,6 +5,7 @@ import { getBubbleSortAnimations } from "../Algorithms/BubbleSort";
 import { getSelectionSortAnimations } from "../Algorithms/SelectionSort";
 import { getQuickSortAnimations } from "../Algorithms/QuickSort";
 import { getHeapSortAnimations } from "../Algorithms/HeapSort";
+import { getInsertionSortAnimations } from "../Algorithms/InsertionSort";
 
 //Default Values
 const DEFAULT_ARRAY_SIZE = 50;
@@ -41,7 +42,7 @@ const SortingVisualiser = () => {
 
   //Function to do the animations
   const animateSorting = (animations) => {
-    const arrayBars =document.getElementsByClassName("arrayBar");
+    const arrayBars = document.getElementsByClassName("arrayBar");
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 1;
       if (isColorChange) {
@@ -64,30 +65,55 @@ const SortingVisualiser = () => {
         }, i * (101 - animationSpeed));
       }
     }
-  }
+  };
 
   const bubbleSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
     const animations = getBubbleSortAnimations(array, arraySize);
-    animateSorting(animations)
+    animateSorting(animations);
   };
 
   const selectionSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
     const animations = getSelectionSortAnimations(array, arraySize);
-    animateSorting(animations)
+    animateSorting(animations);
   };
-  
+
   const quickSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
     const animations = getQuickSortAnimations(array, arraySize);
-    animateSorting(animations)
+    animateSorting(animations);
   };
 
   const heapSort = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
     const animations = getHeapSortAnimations(array, arraySize);
-    animateSorting(animations)
+    animateSorting(animations);
+  };
+
+  const insertionSort = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+    const animations = getInsertionSortAnimations(array, arraySize);
+    const arrayBars = document.getElementsByClassName("arrayBar");
+    for (let i = 0; i < animations.length; i++) {
+      const isColorChange = i % 3 !== 1;
+      if (isColorChange) {
+        const [barOneIdx, barTwoIdx] = animations[i];
+        const barOneStyle = arrayBars[barOneIdx].style;
+        const barTwoStyle = arrayBars[barTwoIdx].style;
+        const color = i % 3 === 0 ? "turquoise" : "#a66cff";
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * (101 - animationSpeed));
+      } else {
+        setTimeout(() => {
+          const [barIdx, newHeight] = animations[i];
+          const barStyle = arrayBars[barIdx].style;
+          barStyle.height = `${newHeight}px`;
+        }, i * (101 - animationSpeed));
+      }
+    }
   };
 
   const barWidth = arraySize > 50 ? 12 : arraySize > 25 ? 17 : 24;
@@ -126,7 +152,7 @@ const SortingVisualiser = () => {
           </div>
         </div>
 
-        <div className="buttons" >
+        <div className="buttons">
           <button className="ui button generate" onClick={resetArray}>
             Generate New Array
           </button>
@@ -141,6 +167,9 @@ const SortingVisualiser = () => {
           </button>
           <button className="ui button" onClick={heapSort}>
             Heap Sort
+          </button>
+          <button className="ui button" onClick={insertionSort}>
+            Insertion Sort
           </button>
         </div>
       </div>
@@ -161,6 +190,6 @@ const SortingVisualiser = () => {
       </div>
     </div>
   );
-}
+};
 
-export default SortingVisualiser
+export default SortingVisualiser;
