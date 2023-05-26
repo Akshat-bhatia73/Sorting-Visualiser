@@ -1,7 +1,6 @@
 export const getInsertionSortAnimations = (array, arraySize) => {
   const animations = [];
   insertionSort(array, arraySize, animations);
-  console.log(animations)
   return animations;
 };
 
