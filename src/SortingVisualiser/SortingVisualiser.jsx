@@ -18,7 +18,7 @@ const SortingVisualiser = () => {
   const [animationSpeed, setAnimationSpeed] = useState(DEFAULT_ANIMATION_SPEED);
   const [array, setArray] = useState([]);
   const [disableButtons, setDisableButtons] = useState(false);
-  const ref = useRef();
+  const ref = useRef(null);
 
   const duplicateArray = array.slice();
 
@@ -101,7 +101,7 @@ const SortingVisualiser = () => {
 
   const insertionSort = () => {
     setDisableButtons(true);
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+    // ref.current?.scrollIntoView({ behavior: "smooth" });
     const animations = getInsertionSortAnimations(duplicateArray, arraySize);
     const arrayBars = document.getElementsByClassName("arrayBar");
     for (let i = 0; i < animations.length; i++) {
@@ -146,6 +146,7 @@ const SortingVisualiser = () => {
               onChange={(e) => {
                 setArraySize(e.target.value);
               }}
+              disabled={disableButtons}
             />
           </div>
           <div className="speed">
@@ -160,6 +161,7 @@ const SortingVisualiser = () => {
               onChange={(e) => {
                 setAnimationSpeed(e.target.value);
               }}
+              disabled={disableButtons}
             />
           </div>
         </div>
